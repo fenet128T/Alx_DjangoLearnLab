@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render,get_object_or_404, redirect
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.views.generic import CreateView
@@ -16,6 +17,26 @@ def is_librarian(user):
 
 def is_member(user):
     return user.is_authenticated and hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
+
+
+
+@permission_required('relationship_app.can_add_book')
+def add_book(request):
+    # Logic for adding a book
+    return render(request, 'relationship_app/add_book.html')
+
+@permission_required('relationship_app.can_change_book')
+def edit_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    # Logic for editing a book
+    return render(request, 'relationship_app/edit_book.html', {'book': book})
+
+@permission_required('relationship_app.can_delete_book')
+def delete_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    # Logic for deleting a book
+    return render(request, 'relationship_app/delete_book.html', {'book': book})
+
 
 # Role-specific views
 @user_passes_test(is_admin)

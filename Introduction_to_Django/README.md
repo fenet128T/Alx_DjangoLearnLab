@@ -1,0 +1,1 @@
+this project is intended for django tutorial 

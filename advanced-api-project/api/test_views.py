@@ -27,7 +27,12 @@ class BookAPITestCase(APITestCase):
             username="testuser",
             password="testpassword123"
         )
-
+          # ✅ Login user (session authentication)
+        self.client = APIClient()
+        self.client.login(
+        username="testuser",
+        password="testpassword123"
+    )
         # Create token for the user
         self.token = Token.objects.create(user=self.user)
 

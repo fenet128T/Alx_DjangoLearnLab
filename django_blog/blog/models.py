@@ -18,6 +18,7 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         related_name='posts'
     )
+    tags = models.ManyToManyField(Tag, blank=True, related_name='posts')
 
     def __str__(self):
         return self.title
@@ -34,3 +35,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.author} on {self.post}'    
+
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name

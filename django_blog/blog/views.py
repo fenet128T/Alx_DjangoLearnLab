@@ -15,7 +15,8 @@ from django.views.generic import (
 )
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Post,comment
+from django.db.models import Q
+from .models import Post,Comment,Tag
 from .forms import CommentForm
 from django.views.generic import DetailView
 from .forms import PostForm
@@ -81,7 +82,15 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+        tags_string = form.cleaned_data['tags']
+        tag_list = [tag.strip() for tag in tags_string.split(',') if tag.strip()]
+
+        for tag_name in tag_list:
+            tag, created = Tag.objects.get_or_create(name=tag_name)
+            self.object.tags.add(tag)
+        return response
 
 
 # ---------------- UPDATE VIEW ----------------
@@ -100,6 +109,18 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        self.object.tags.clear()
+        tags_string = form.cleaned_data['tags']
+        tag_list = [tag.strip() for tag in tags_string.split(',') if tag.strip()]
+
+        for tag_name in tag_list:
+            tag, created = Tag.objects.get_or_create(name=tag_name)
+            self.object.tags.add(tag)
+
+        return response
 
 
 # ---------------- DELETE VIEW ----------------

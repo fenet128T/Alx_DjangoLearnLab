@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post,Tag
 from .models import Comment
 
 from django.contrib.auth.models import User
@@ -18,10 +18,11 @@ class PostForm(forms.ModelForm):
     Form for creating and updating blog posts.
     The author field is excluded because it will be set automatically.
     """
+    tags = forms.CharField(required=False, help_text="Separate tags with commas")
 
     class Meta:
         model = Post
-        fields = ["title", "content"]
+        fields = ["title", "content", "tags"]
 
 
 class CommentForm(forms.ModelForm):

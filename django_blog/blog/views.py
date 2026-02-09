@@ -177,3 +177,36 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return self.object.post.get_absolute_url()
+
+
+# ----------------- SEARCH VIEW ----------------
+class SearchResultsView(ListView):
+    model = Post
+    template_name = 'blog/search_results.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Post.objects.filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(tags__name__icontains=query)
+            ).distinct()
+        return Post.objects.all()
+    
+# ----------------- TAG VIEW ----------------
+class TagPostListView(ListView):
+    model = Post
+    template_name = 'blog/tag_posts.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        self.tag = Tag.objects.get(name=self.kwargs['tag_name'])
+        return self.tag.posts.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = self.tag
+        return context
+   

@@ -14,6 +14,7 @@ from .views import (
     SearchResultsView, 
     TagPostListView
 )
+from .views import PostByTagListView
 
 
 urlpatterns = [
@@ -38,5 +39,10 @@ urlpatterns = [
  # ---------------- SEARCH & TAG URLs ----------------
     path('search/', SearchResultsView.as_view(), name='search'),
 path('tags/<str:tag_name>/', TagPostListView.as_view(), name='tag-posts'),
+
+
+
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='posts_by_tag'),
+
 
 ]

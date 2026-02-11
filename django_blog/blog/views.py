@@ -228,3 +228,11 @@ class TagPostListView(ListView):
         context['tag'] = self.tag
         return context
    
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag = Tag.objects.get(slug=self.kwargs.get('tag_slug'))
+        return Post.objects.filter(tags=tag)   

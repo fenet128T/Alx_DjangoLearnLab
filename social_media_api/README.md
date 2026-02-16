@@ -10,3 +10,15 @@ Permissions: Only the author of a post or comment can modify or delete it.
 Search: Built-in filtering to search posts by title or content.
 
 Pagination: Results are paginated (10 per page) to ensure high performance.
+
+
+Social Media API - Follows & Feed:::
+
+This update introduces user-to-user relationships and a personalized content feed.
+
+New Features:::::
+Follow System: Users can follow/unfollow others to curate their network.
+
+Dynamic Feed: A personalized list of posts from followed users, sorted by the most recent.
+
+Self-Follow Protection: Logic prevents users from following their own accounts.

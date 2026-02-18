@@ -77,6 +77,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     Allows authenticated users to create posts.
     """
     model = Post
+    fields = ['title', 'content']
     form_class = PostForm
     template_name = "blog/post_form.html"
 

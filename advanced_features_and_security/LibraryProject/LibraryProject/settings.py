@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-t3-c#7zsj4^2=6xrx8yq@l*zhn+se(%f$3le313%$+=)as*o@u
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+SECURE_SSL_REDIRECT = True
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True

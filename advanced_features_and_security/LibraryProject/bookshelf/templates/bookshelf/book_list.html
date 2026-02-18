@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book List</title>
+</head>
+<body>
+    <h1>Bookshelf Catalog</h1>
+    
+    <ul>
+        {% for book in books %}
+            <li>
+                <strong>{{ book.title }}</strong> by {{ book.author }} ({{ book.publication_year }})
+            </li>
+        {% empty %}
+            <li>No books available in the library yet.</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <a href="{% url 'form_example' %}">Add/Search Books</a>
+</body>
+</html>
